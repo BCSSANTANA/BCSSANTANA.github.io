@@ -21,6 +21,16 @@
       height: 100vh;
     }
 
+    /* Top Left Header */
+    #top-left-name {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      font-size: 24px;
+      letter-spacing: 1px;
+      z-index: 10;
+    }
+
     /* Top Navigation Layout */
     #top-nav {
       display: flex;
@@ -51,12 +61,14 @@
 </head>
 <body>
 
+  <!-- Top Left Name -->
+  <div id="top-left-name">
+    <span class="text-content"></span>
+  </div>
+
   <!-- Top Links -->
   <div id="top-nav">
     <a href="reading.html" id="link-left" class="nav-link">
-      <span class="text-content"></span>
-    </a>
-    <a href="about.html" id="link-center" class="nav-link">
       <span class="text-content"></span>
     </a>
     <a href="projects.html" id="link-right" class="nav-link">
@@ -66,8 +78,8 @@
 
   <script>
     const sequence = [
+      { id: 'top-left-name', text: 'Bruno' },
       { id: 'link-left', text: 'Reading List' },
-      { id: 'link-center', text: 'About Me' },
       { id: 'link-right', text: 'Projects' }
     ];
 
