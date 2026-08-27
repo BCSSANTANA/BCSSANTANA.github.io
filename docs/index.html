@@ -4,506 +4,514 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bruno Santana</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;700;800&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
 
     :root {
-      --bg:     #040d1e;
-      --star:   #a8c0e8;
-      --white:  #e8f0ff;
-      --yellow: #f5c842;
-      --dim:    rgba(232, 240, 255, 0.45);
-      --frame-border: rgba(168, 192, 232, 0.5);
-      --frame-glow:   rgba(100, 160, 255, 0.22);
-
-      /* Layout targets */
-      --frame-full: 260px;
-      --frame-icon: 46px;
+      --bg: #040d1e;
+      --text: #e8f0ff;
+      --accent: #f5c842;
     }
 
     html, body {
-      width: 100%; height: 100%;
-      overflow: hidden;
+      width: 100%; 
+      height: 100%;
       background: var(--bg);
-      font-family: 'Syne', sans-serif;
-      cursor: default;
-      color: var(--white);
-    }
-
-    /* ════════════════════════════════
-       PHOTO FRAME
-    ════════════════════════════════ */
-    #frame {
-      position: fixed;
-      /* start: centered */
-      top: 50%;
-      left: 50%;
-      width: var(--frame-full);
-      height: var(--frame-full);
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      border: 2px solid var(--frame-border);
-      box-shadow: 0 0 0 8px rgba(168,192,232,0.07),
-                  0 0 50px 10px var(--frame-glow);
+      /* Typewriter Font */
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--text);
       overflow: hidden;
-      background: rgba(168,192,232,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      /* We drive ALL movement via JS-set CSS custom properties + transitions */
-      transition: none; /* JS handles timing */
     }
 
-    #frame .placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      opacity: 0.4;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    #frame .placeholder svg {
-      width: 64px; height: 64px;
-      stroke: var(--star); fill: none; stroke-width: 1.2;
-      transition: width .6s ease, height .6s ease;
-    }
-
-    #frame .placeholder span {
-      font-size: 11px; letter-spacing: 3px;
-      color: var(--star); font-weight: 400;
-      transition: opacity .4s;
-    }
-
-    #frame img {
-      width: 100%; height: 100%;
-      object-fit: cover; border-radius: 50%;
-    }
-
-    /* ════════════════════════════════
-       TYPING TEXT (obj 2)
-    ════════════════════════════════ */
-    #typeblock {
+    /* Top Left Name */
+    #top-left-name {
       position: fixed;
-      /* sits to the right of the frame in its final left position */
-      top: 50%;
-      left: calc(50% - 130px + 260px + 56px); /* frame-left-edge + frame-width + gap */
-      transform: translateY(-50%);
+      top: 30px;
+      left: 40px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       z-index: 10;
-      opacity: 0;
-      pointer-events: none;
     }
 
-    #typed-text {
-      font-size: clamp(28px, 4vw, 52px);
-      font-weight: 300;
-      letter-spacing: 0.06em;
-      color: var(--white);
-      line-height: 1.15;
-      white-space: nowrap;
-    }
-
-    #typed-text .name {
-      font-weight: 800;
-    }
-
-    #caret {
-      display: inline-block;
-      width: 3px;
-      height: 1em;
-      background: var(--yellow);
-      margin-left: 4px;
-      vertical-align: middle;
-      opacity: 0;
-      border-radius: 1px;
-    }
-
-    /* ════════════════════════════════
-       FINAL SCREEN (frame 125+)
-    ════════════════════════════════ */
-    #final-content {
+    /* Center Navigation Layout */
+    #center-nav {
       position: fixed;
       inset: 0;
-      z-index: 5;
-      opacity: 0;
-      pointer-events: none;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 48px;
-      padding: 80px 40px 40px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 48px;
-      align-items: center;
+      gap: 5vw; /* Spaces them out: Left Center, Center Center, Right Center */
+      padding: 0 40px;
     }
 
     .nav-link {
-      font-size: clamp(18px, 2.5vw, 28px);
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--white);
+      font-size: clamp(16px, 2vw, 24px);
+      color: var(--text);
       text-decoration: none;
-      position: relative;
-      padding-bottom: 6px;
-      transition: color .3s;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 0; height: 2px;
-      background: var(--yellow);
-      transition: width .4s ease;
-    }
-
-    .nav-link:hover { color: var(--yellow); }
-    .nav-link:hover::after { width: 100%; }
-
-    .socials {
+      letter-spacing: 1px;
+      transition: color 0.3s;
       display: flex;
-      gap: 32px;
       align-items: center;
     }
 
-    .social-icon {
+    .nav-link:hover {
+      color: var(--accent);
+    }
+
+    /* Typing effect elements */
+    .text-content {
+      white-space: nowrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.2em;
+      background-color: var(--accent);
+      vertical-align: bottom;
+      margin-left: 4px;
+      opacity: 0; /* Hidden by default, shown via JS */
+    }<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bruno Santana</title>
+  <style>
+    *, *::before, *::after { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    :root {
+      --bg: #040d1e;
+      --text: #e8f0ff;
+      --accent: #f5c842;
+    }<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bruno Santana</title>
+  <style>
+    *, *::before, *::after { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    :root {
+      --bg: #040d1e;
+      --text: #e8f0ff;
+      --accent: #f5c842;
+    }
+
+    html, body {
+      width: 100%; 
+      height: 100%;
+      background: var(--bg);
+      /* Typewriter Font */
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* Top Left Name */
+    #top-left-name {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+
+    /* Center Navigation Layout */
+    #center-nav {
+      position: fixed;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      border: 1.5px solid var(--frame-border);
-      color: var(--star);
+      gap: 5vw; /* Spaces them out: Left Center, Center Center, Right Center */
+      padding: 0 40px;
+    }
+
+    .nav-link {
+      font-size: clamp(16px, 2vw, 24px);
+      color: var(--text);
       text-decoration: none;
-      transition: border-color .3s, color .3s, box-shadow .3s, transform .3s;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
     }
 
-    .social-icon svg {
-      width: 20px; height: 20px;
-      fill: currentColor;
+    .nav-link:hover {
+      color: var(--accent);
     }
 
-    .social-icon:hover {
-      border-color: var(--yellow);
-      color: var(--yellow);
-      box-shadow: 0 0 14px 2px rgba(245,200,66,0.3);
-      transform: translateY(-3px);
+    /* Typing effect elements */
+    .text-content {
+      white-space: nowrap;
     }
 
-    /* icon-frame in top-left: driven by JS */
-    #frame.icon-mode {
-      border-color: rgba(168,192,232,0.3);
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.2em;
+      background-color: var(--accent);
+      vertical-align: bottom;
+      margin-left: 4px;
+      opacity: 0; /* Hidden by default, shown via JS */
+    }
+
+    .cursor.active {
+      opacity: 1;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-<!-- Photo frame -->
-<div id="frame">
-  <!-- Replace placeholder with <img src="your-photo.jpg" alt="Bruno"> when ready -->
-  <div class="placeholder">
-    <svg viewBox="0 0 64 64" id="placeholderIcon">
-      <circle cx="32" cy="24" r="10"/>
-      <path d="M10 54 Q10 38 32 38 Q54 38 54 54"/>
-    </svg>
-    <span id="placeholderLabel">HEADSHOT</span>
+  <!-- Top Left -->
+  <div id="top-left-name">
+    <span class="text-content"></span><span class="cursor"></span>
   </div>
-</div>
 
-<!-- Typing text -->
-<div id="typeblock">
-  <p id="typed-text"><span id="output"></span><span id="caret"></span></p>
-</div>
-
-<!-- Final content -->
-<div id="final-content">
-  <div class="nav-links">
-    <a href="about.html" class="nav-link">About Me →</a>
-    <a href="projects.html" class="nav-link">Projects →</a>
+  <!-- Center Links -->
+  <div id="center-nav">
+    <a href="reading.html" id="link-left" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+    <a href="about.html" id="link-center" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+    <a href="projects.html" id="link-right" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
   </div>
-  <div class="socials">
 
-    <!-- GitHub -->
-    <a class="social-icon" href="https://github.com/" target="_blank" title="GitHub" aria-label="GitHub">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303
-          3.438 9.8 8.205 11.385.6.113.82-.258.82-.577
-          0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61
-          C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729
-          1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998
-          .108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93
-          0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176
-          0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405
-          1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23
-          .645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22
-          0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22
-          0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57
-          C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-      </svg>
-    </a>
+  <script>
+    // Elements to type out in sequence
+    const sequence = [
+      { id: 'top-left-name', text: 'BRUNO' },
+      { id: 'link-left', text: 'Reading List' },
+      { id: 'link-center', text: 'About Me' },
+      { id: 'link-right', text: 'Projects' }
+    ];
 
-    <!-- Email -->
-    <a class="social-icon" href="mailto:your@email.com" title="Email" aria-label="Email">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16
-          c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-      </svg>
-    </a>
+    // Typing delay settings
+    const TYPING_SPEED = 75; 
+    const PAUSE_BETWEEN = 300; 
 
-    <!-- Discord -->
-    <a class="social-icon" href="https://discord.com/" target="_blank" title="Discord" aria-label="Discord">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074
-          0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0
-          0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0
-          0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0
-          0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0
-          0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0
-          .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0
-          0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0
-          1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1
-          .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0
-          1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127
-          12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772
-          1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0
-          6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061
-          0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419
-          0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42
-          0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419
-          0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42
-          0 1.333-.946 2.418-2.157 2.418z"/>
-      </svg>
-    </a>
+    // Helper function to handle the typing math and timing
+    function typeText(elementId, textToType) {
+      return new Promise(resolve => {
+        const container = document.getElementById(elementId);
+        const textSpan = container.querySelector('.text-content');
+        const cursor = container.querySelector('.cursor');
+        
+        // Activate this element's cursor
+        cursor.classList.add('active');
+        
+        let i = 0;
+        
+        function typeChar() {
+          if (i < textToType.length) {
+            textSpan.textContent += textToType.charAt(i);
+            i++;
+            setTimeout(typeChar, TYPING_SPEED + (Math.random() * 30)); // slight randomization for realism
+          } else {
+            // Typing complete for this block
+            cursor.classList.remove('active');
+            resolve();
+          }
+        }
+        
+        typeChar();
+      });
+    }
 
-  </div>
-</div>
-
-<script>
-/* ─────────────────────────────────────────────
-   FRAME DURATION TIMELINE
-   We treat "frames" as ~40ms each → 24fps-ish
-   Total sequence ≈ 125 frames × 40ms = 5 seconds
-────────────────────────────────────────────── */
-const MS = 40; // ms per frame
-
-const frame            = document.getElementById('frame');
-const typeblock        = document.getElementById('typeblock');
-const caret            = document.getElementById('caret');
-const output           = document.getElementById('output');
-const finalEl          = document.getElementById('final-content');
-const placeholderLabel = document.getElementById('placeholderLabel');
-
-const FULL   = 260; // px
-const ICON   = 46;  // px
-const GAP    = 56;  // gap between frame and text
-
-/* Viewport-relative positions */
-function vw() { return window.innerWidth; }
-function vh() { return window.innerHeight; }
-
-/* Left position for frame in its "ORIG" state (left side of center pair) */
-function origFrameLeft() {
-  return vw() / 2 - FULL / 2 - GAP / 2 - FULL / 2;
-  // center of screen minus half the pair width
-  // pair width = FULL + GAP + textWidth  ≈ FULL + GAP + FULL*1.5
-  // approximate: just shift 180px left of center
-}
-
-/* ── Ease helpers ── */
-function lerp(a, b, t) { return a + (b - a) * t; }
-function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-
-/* ── Apply frame state directly (no CSS transition; we drive every frame) ── */
-function applyFrame(left, top, size) {
-  frame.style.transition = 'none';
-  frame.style.transform  = 'none';
-  frame.style.left   = left + 'px';
-  frame.style.top    = top  + 'px';
-  frame.style.width  = size + 'px';
-  frame.style.height = size + 'px';
-  frame.style.marginLeft = '0';
-  frame.style.marginTop  = '0';
-}
-
-/* ── Timeline state ── */
-let startTime = null;
-
-/* Final icon position: top-left corner with margin */
-const ICON_MARGIN = 24;
-
-function getIconPos() {
-  return { left: ICON_MARGIN, top: ICON_MARGIN };
-}
-
-/* Centered position */
-function getCenteredPos(size) {
-  return { left: vw()/2 - size/2, top: vh()/2 - size/2 };
-}
-
-/* ORIG left position: frame to the left of center-pair */
-function getOrigPos() {
-  // Center the pair: total width = FULL + GAP + ~260px text ≈ 576px
-  const pairW = FULL + GAP + 260;
-  const pairLeft = vw()/2 - pairW/2;
-  return { left: pairLeft, top: vh()/2 - FULL/2 };
-}
-
-/* Where typeblock text starts (right of frame in ORIG) */
-function getTypeblockLeft() {
-  const orig = getOrigPos();
-  return orig.left + FULL + GAP;
-}
-
-function tick(now) {
-  if (!startTime) startTime = now;
-  const elapsed = now - startTime;
-  const f = elapsed / MS; // current "frame" number (fractional)
-
-  /* ── Phase 1: 0–25 frames — frame centered ── */
-  if (f <= 25) {
-    const c = getCenteredPos(FULL);
-    applyFrame(c.left, c.top, FULL);
-    requestAnimationFrame(tick);
-    return;
-  }
-
-  /* ── Phase 2: 25–35 frames — frame slides to ORIG ── */
-  if (f <= 35) {
-    const t   = easeInOut((f - 25) / 10);
-    const src = getCenteredPos(FULL);
-    const dst = getOrigPos();
-    applyFrame(
-      lerp(src.left, dst.left, t),
-      lerp(src.top,  dst.top,  t),
-      FULL
-    );
-    requestAnimationFrame(tick);
-    return;
-  }
-
-  /* Ensure frame is locked in ORIG for phases 3, 4 & 5 */
-  if (f <= 133) {
-    const dst = getOrigPos();
-    applyFrame(dst.left, dst.top, FULL);
-  }
-
-  /* ── Phase 3: 35–75 — caret appears, typing ── */
-  if (f > 35 && f <= 75) {
-    typeblock.style.opacity = '1';
-    typeblock.style.left = getTypeblockLeft() + 'px';
-    caret.style.opacity = '1';
-
-    const fullText = "Hi, I'm Bruno Santana";
-    const progress = Math.min((f - 35) / 38, 1);
-    const charCount = Math.floor(easeInOut(progress) * fullText.length);
-    output.innerHTML = formatText(fullText.slice(0, charCount));
-
-    // Once the full name "Bruno Santana" is typed (last 13 chars), glow yellow
-    const nameEl = document.getElementById('nameSpan');
-    if (nameEl) {
-      // Name fully typed at charCount >= 21 (full string length)
-      const nameProgress = Math.max(0, Math.min((charCount - 8) / 13, 1)); // 8 = "Hi, I'm " length
-      if (nameProgress >= 1) {
-        nameEl.style.color = 'var(--yellow)';
-        nameEl.style.textShadow = '0 0 18px rgba(245,200,66,0.7)';
-      } else {
-        nameEl.style.color = 'var(--white)';
-        nameEl.style.textShadow = 'none';
+    // Run the animation sequence on load
+    async function runOpeningSequence() {
+      for (let i = 0; i < sequence.length; i++) {
+        await typeText(sequence[i].id, sequence[i].text);
+        
+        // Wait briefly before starting the next text
+        if (i < sequence.length - 1) {
+          await new Promise(r => setTimeout(r, PAUSE_BETWEEN));
+        } else {
+          // Leave the final cursor blinking on the last item to maintain the terminal feel
+          const lastContainer = document.getElementById(sequence[i].id);
+          lastContainer.querySelector('.cursor').classList.add('active');
+        }
       }
     }
 
-    requestAnimationFrame(tick);
-    return;
-  }
+    window.onload = runOpeningSequence;
+  </script>
+</body>
+</html>
 
-  /* ── Phase 4: 75–103 — caret lingers; name glow fades to white ── */
-  if (f > 75 && f <= 103) {
-    output.innerHTML = formatText("Hi, I'm Bruno Santana");
-    caret.style.opacity = Math.floor((f - 75) * 5) % 2 === 0 ? '1' : '0.1';
-
-    // Glow fades out over ~12 frames (≈ 0.5s) starting at frame 75
-    const glowT = Math.min((f - 75) / 12, 1);
-    const nameEl = document.getElementById('nameSpan');
-    if (nameEl) {
-      // Interpolate from yellow → white
-      const r = Math.round(lerp(245, 232, glowT));
-      const g = Math.round(lerp(200, 240, glowT));
-      const b = Math.round(lerp(66,  255, glowT));
-      nameEl.style.color = `rgb(${r},${g},${b})`;
-      const glowOpacity = (1 - glowT) * 0.7;
-      nameEl.style.textShadow = glowOpacity > 0.01
-        ? `0 0 18px rgba(245,200,66,${glowOpacity})`
-        : 'none';
+    html, body {
+      width: 100%; 
+      height: 100%;
+      background: var(--bg);
+      /* Typewriter Font */
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--text);
+      overflow: hidden;
     }
 
-    requestAnimationFrame(tick);
-    return;
-  }
+    /* Top Left Name */
+    #top-left-name {
+      position: fixed;
+      top: 30px;
+      left: 40px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      z-index: 10;
+    }
 
-  /* ── Phase 5: 103–133 — deletion ── */
-  if (f > 103 && f <= 133) {
-    const fullText = "Hi, I'm Bruno Santana";
-    const progress = Math.min((f - 103) / 28, 1);
-    const remaining = Math.floor((1 - easeInOut(progress)) * fullText.length);
-    output.innerHTML = formatText(fullText.slice(0, remaining));
-    caret.style.opacity = '1';
-    requestAnimationFrame(tick);
-    return;
-  }
+    /* Center Navigation Layout */
+    #center-nav {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5vw; /* Spaces them out: Left Center, Center Center, Right Center */
+      padding: 0 40px;
+    }
 
-  /* ── Phase 6: 133–143 — frame slides to top-left icon ── */
-  if (f > 133 && f <= 143) {
-    const t   = easeInOut((f - 133) / 10);
-    const src = getOrigPos();
-    const dst = getIconPos();
+    .nav-link {
+      font-size: clamp(16px, 2vw, 24px);
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+    }
 
-    const size = lerp(FULL, ICON, t);
-    applyFrame(
-      lerp(src.left, dst.left, t),
-      lerp(src.top,  dst.top,  t),
-      size
-    );
+    .nav-link:hover {
+      color: var(--accent);
+    }
 
-    // fade out typeblock
-    typeblock.style.opacity = String(1 - t);
-    caret.style.opacity     = '0';
+    /* Typing effect elements */
+    .text-content {
+      white-space: nowrap;
+    }
 
-    // hide placeholder label as it shrinks
-    if (placeholderLabel) placeholderLabel.style.opacity = String(1 - t * 3);
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.2em;
+      background-color: var(--accent);
+      vertical-align: bottom;
+      margin-left: 4px;
+      opacity: 0; /* Hidden by default, shown via JS */
+    }
 
-    requestAnimationFrame(tick);
-    return;
-  }
+    .cursor.active {
+      opacity: 1;
+      animation: blink 1s step-end infinite;
+    }
 
-  /* ── Phase 7: 143+ — final state ── */
-  const ic = getIconPos();
-  applyFrame(ic.left, ic.top, ICON);
-  typeblock.style.opacity = '0';
-  frame.style.border = '1.5px solid rgba(168,192,232,0.3)';
-  if (placeholderLabel) placeholderLabel.style.opacity = '0';
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
 
-  // fade in final content
-  finalEl.style.pointerEvents = 'auto';
-  const o = Math.min((f - 143) / 20, 1);
-  finalEl.style.opacity = String(easeInOut(o));
-  if (o < 1) requestAnimationFrame(tick);
-}
+  <!-- Top Left -->
+  <div id="top-left-name">
+    <span class="text-content"></span><span class="cursor"></span>
+  </div>
 
-/* Wrap full name in a span for the glow effect */
-function formatText(str) {
-  return str.replace(/(Bruno Santana)/, '<span id="nameSpan">$1</span>');
-}
+  <!-- Center Links -->
+  <div id="center-nav">
+    <a href="reading.html" id="link-left" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+    <a href="about.html" id="link-center" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+    <a href="projects.html" id="link-right" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+  </div>
 
-/* Start */
-requestAnimationFrame(tick);
-</script>
+  <script>
+    // Elements to type out in sequence
+    const sequence = [
+      { id: 'top-left-name', text: 'BRUNO' },
+      { id: 'link-left', text: 'Reading List' },
+      { id: 'link-center', text: 'About Me' },
+      { id: 'link-right', text: 'Projects' }
+    ];
+
+    // Typing delay settings
+    const TYPING_SPEED = 75; 
+    const PAUSE_BETWEEN = 300; 
+
+    // Helper function to handle the typing math and timing
+    function typeText(elementId, textToType) {
+      return new Promise(resolve => {
+        const container = document.getElementById(elementId);
+        const textSpan = container.querySelector('.text-content');
+        const cursor = container.querySelector('.cursor');
+        
+        // Activate this element's cursor
+        cursor.classList.add('active');
+        
+        let i = 0;
+        
+        function typeChar() {
+          if (i < textToType.length) {
+            textSpan.textContent += textToType.charAt(i);
+            i++;
+            setTimeout(typeChar, TYPING_SPEED + (Math.random() * 30)); // slight randomization for realism
+          } else {
+            // Typing complete for this block
+            cursor.classList.remove('active');
+            resolve();
+          }
+        }
+        
+        typeChar();
+      });
+    }
+
+    // Run the animation sequence on load
+    async function runOpeningSequence() {
+      for (let i = 0; i < sequence.length; i++) {
+        await typeText(sequence[i].id, sequence[i].text);
+        
+        // Wait briefly before starting the next text
+        if (i < sequence.length - 1) {
+          await new Promise(r => setTimeout(r, PAUSE_BETWEEN));
+        } else {
+          // Leave the final cursor blinking on the last item to maintain the terminal feel
+          const lastContainer = document.getElementById(sequence[i].id);
+          lastContainer.querySelector('.cursor').classList.add('active');
+        }
+      }
+    }
+
+    window.onload = runOpeningSequence;
+  </script>
+</body>
+</html>
+
+    .cursor.active {
+      opacity: 1;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Left -->
+  <div id="top-left-name">
+    <span class="text-content"></span><span class="cursor"></span>
+  </div>
+
+  <!-- Center Links -->
+  <div id="center-nav">
+    <a href="reading.html" id="link-left" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+    <a href="about.html" id="link-center" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+    <a href="projects.html" id="link-right" class="nav-link">
+      <span class="text-content"></span><span class="cursor"></span>
+    </a>
+  </div>
+
+  <script>
+    // Elements to type out in sequence
+    const sequence = [
+      { id: 'top-left-name', text: 'BRUNO' },
+      { id: 'link-left', text: 'Reading List' },
+      { id: 'link-center', text: 'About Me' },
+      { id: 'link-right', text: 'Projects' }
+    ];
+
+    // Typing delay settings
+    const TYPING_SPEED = 75; 
+    const PAUSE_BETWEEN = 300; 
+
+    // Helper function to handle the typing math and timing
+    function typeText(elementId, textToType) {
+      return new Promise(resolve => {
+        const container = document.getElementById(elementId);
+        const textSpan = container.querySelector('.text-content');
+        const cursor = container.querySelector('.cursor');
+        
+        // Activate this element's cursor
+        cursor.classList.add('active');
+        
+        let i = 0;
+        
+        function typeChar() {
+          if (i < textToType.length) {
+            textSpan.textContent += textToType.charAt(i);
+            i++;
+            setTimeout(typeChar, TYPING_SPEED + (Math.random() * 30)); // slight randomization for realism
+          } else {
+            // Typing complete for this block
+            cursor.classList.remove('active');
+            resolve();
+          }
+        }
+        
+        typeChar();
+      });
+    }
+
+    // Run the animation sequence on load
+    async function runOpeningSequence() {
+      for (let i = 0; i < sequence.length; i++) {
+        await typeText(sequence[i].id, sequence[i].text);
+        
+        // Wait briefly before starting the next text
+        if (i < sequence.length - 1) {
+          await new Promise(r => setTimeout(r, PAUSE_BETWEEN));
+        } else {
+          // Leave the final cursor blinking on the last item to maintain the terminal feel
+          const lastContainer = document.getElementById(sequence[i].id);
+          lastContainer.querySelector('.cursor').classList.add('active');
+        }
+      }
+    }
+
+    window.onload = runOpeningSequence;
+  </script>
 </body>
 </html>
