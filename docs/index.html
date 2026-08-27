@@ -21,37 +21,22 @@
       height: 100vh;
     }
 
-    /* Top Left Header */
-    #top-left-name {
-      position: absolute;
-      top: 30px;
-      left: 40px;
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      z-index: 10;
-    }
-
-    /* Centered Navigation */
-    #center-nav {
+    /* Top Navigation Layout */
+    #top-nav {
       display: flex;
-      align-items: center;
       justify-content: center;
       gap: 5vw;
       width: 100%;
-      height: 100%;
-      padding: 0 40px;
+      padding-top: 60px; /* Adjust this to move texts higher or lower */
     }
 
     .nav-link {
-      font-size: clamp(16px, 2vw, 24px);
+      font-size: 24px; /* Uniform font size */
       color: #e8f0ff;
       text-decoration: none;
       letter-spacing: 1px;
       transition: color 0.3s;
       display: flex;
-      align-items: center;
     }
 
     .nav-link:hover {
@@ -62,51 +47,25 @@
     .text-content {
       white-space: nowrap;
     }
-
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.2em;
-      background-color: #f5c842;
-      vertical-align: bottom;
-      margin-left: 4px;
-      opacity: 0;
-    }
-
-    .cursor.active {
-      opacity: 1;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Top Left Name -->
-  <div id="top-left-name">
-    <span class="text-content"></span><span class="cursor"></span>
-  </div>
-
-  <!-- Center Links -->
-  <div id="center-nav">
+  <!-- Top Links -->
+  <div id="top-nav">
     <a href="reading.html" id="link-left" class="nav-link">
-      <span class="text-content"></span><span class="cursor"></span>
+      <span class="text-content"></span>
     </a>
     <a href="about.html" id="link-center" class="nav-link">
-      <span class="text-content"></span><span class="cursor"></span>
+      <span class="text-content"></span>
     </a>
     <a href="projects.html" id="link-right" class="nav-link">
-      <span class="text-content"></span><span class="cursor"></span>
+      <span class="text-content"></span>
     </a>
   </div>
 
   <script>
     const sequence = [
-      { id: 'top-left-name', text: 'BRUNO' },
       { id: 'link-left', text: 'Reading List' },
       { id: 'link-center', text: 'About Me' },
       { id: 'link-right', text: 'Projects' }
@@ -119,9 +78,7 @@
       return new Promise(resolve => {
         const container = document.getElementById(elementId);
         const textSpan = container.querySelector('.text-content');
-        const cursor = container.querySelector('.cursor');
         
-        cursor.classList.add('active');
         let i = 0;
         
         function typeChar() {
@@ -130,7 +87,6 @@
             i++;
             setTimeout(typeChar, TYPING_SPEED + (Math.random() * 30));
           } else {
-            cursor.classList.remove('active');
             resolve();
           }
         }
@@ -145,9 +101,6 @@
         
         if (i < sequence.length - 1) {
           await new Promise(r => setTimeout(r, PAUSE_BETWEEN));
-        } else {
-          const lastContainer = document.getElementById(sequence[i].id);
-          lastContainer.querySelector('.cursor').classList.add('active');
         }
       }
     }
